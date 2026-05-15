@@ -1,8 +1,7 @@
 import 'dotenv/config'
 import express 	from "express";	// hacer npm i express
 import cors 	from "cors";	// hacer npm i cors
-
-// Controllers
+import MateriasController       from "./controllers/materias-controller.js"
 import AlumnosController    from "./controllers/alumnos-controller.js"
 import CursosController     from "./controllers/cursos-controller.js"
 
@@ -16,7 +15,7 @@ app.use(express.json()); // Middleware para parsear y comprender JSON
 // Endpoints (todos los Routers)
 app.use("/api/alumnos", AlumnosController);
 app.use("/api/cursos" , CursosController);
-
+app.use("/api/materias",      MateriasController);
 //
 // Inicio el Server y lo pongo a escuchar.
 //
