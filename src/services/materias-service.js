@@ -35,6 +35,12 @@ export default class MateriasService {
         }
         const resultadoArray = await this.MateriasRepository.updateMateria(id, nombre);
         const rowsAffected = resultadoArray.length;
-        return rowsAffected; 
+        return rowsAffected;
+    }
+
+    eliminarMateria = async (id) => {
+        console.log(`MateriasService.eliminarMateria(${id})`);
+        const resultado = await this.MateriasRepository.eliminarMateria(id);
+        return resultado;
     }
 }

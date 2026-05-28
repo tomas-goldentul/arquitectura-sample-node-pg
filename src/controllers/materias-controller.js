@@ -84,4 +84,27 @@ router.put('/:id', async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
     }
 });
+
+//eliminar Materia
+router.delete('/:id', async (req, res) => {
+    try {
+        console.log(`MateriasController.eliminarMateria`);
+        const id = req.params.id;
+        const resultado = await currentService.eliminarMateria(id);
+        if (resultado.length === 0) {
+            return res.status(StatusCodes.NOT_FOUND).json("No existe la materia");
+        }
+        else {
+            res.status(StatusCodes.OK).json("se elimino correctamente");
+
+        }
+
+    }
+    catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
+    }
+
+
+});
 export default router;

@@ -23,10 +23,17 @@ export default class MateriasRepository {
         return await this.db.queryAll(sql, params);
     }
     updateMateria = async (id, nombre) => {
-    console.log(`MateriasRepository.updateMateria()`);
-    const sql = `UPDATE materias SET nombre = $2 WHERE id = $1 RETURNING *`;
-    const params = [id, nombre];
-    return await this.db.queryAll(sql, params); 
-}
+        console.log(`MateriasRepository.updateMateria()`);
+        const sql = `UPDATE materias SET nombre = $2 WHERE id = $1 RETURNING *`;
+        const params = [id, nombre];
+        return await this.db.queryAll(sql, params);
+    }
+    eliminarMateria = async (id) => {
+        console.log(`MateriasRepository.eliminarMateria()`);
+        const sql = `DELETE FROM materias where id = $1 RETURNING *`;
+        const params = [id]
+        return await this.db.queryAll(sql, params);
+
+    }
 
 }
