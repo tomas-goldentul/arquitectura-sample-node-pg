@@ -23,6 +23,18 @@ export default class CalificacionesRepository {
         const values = [id]
         return await this.db.queryOne(sql, values);
     }
+    getAllCalificacionesAlumno = async (idAlumno) => {
+        console.log(`CalificacionesRepository.getAllCalificacionesAlumno(${idAlumno})`);
+        const sql = `
+        SELECT c.id, c.id_materia, m.nombre as nombre_materia, c.nota, c.fecha
+        FROM calificaciones c
+        inner join materias m ON c.id_materia = m.id
+        WHERE c.id_alumno = $1
+    `;
+        const values = [idAlumno]
+        return await this.db.queryAll(sql, values);
+
+    }
 
 
 }

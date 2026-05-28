@@ -38,4 +38,20 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+//traer calificaciones de alumno
+router.get('/alumno/:idAlumno', async (req, res) => {
+    try {
+        console.log(`CalificacionesController.get`);
+        const idAlumno = req.params.idAlumno;
+        const resultado = await currentService.getAllCalificacionesAlumno(idAlumno);
+        res.status(StatusCodes.OK).json(resultado);
+       
+    } catch (error) {
+        console.log(error);
+        if (error.status === 404) {
+            return res.status(StatusCodes.NOT_FOUND).send("No se encontro al alumno");
+        }
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
+    }
+});
 export default router;
