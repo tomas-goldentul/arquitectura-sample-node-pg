@@ -12,5 +12,11 @@ export default class CalificacionesService {
 
     }
 
-   
+    getCalificacionesId = async (id) => {
+                console.log(`CalificacionesService.getCalificacionesId()`);
+                 const resultado = await this.CalificacionesRepository.getCalificacionesId(id);
+        return resultado;
+    }
+
+
 }

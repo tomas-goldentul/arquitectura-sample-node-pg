@@ -21,6 +21,21 @@ router.get('', async (req, res) => {
     }
 });
 
-
+//traer calificacion por id
+router.get('/:id', async (req, res) => {
+    try {
+        console.log(`CalificacionesController.get`);
+        const id = req.params.id;
+        const resultado = await currentService.getCalificacionesId(id);
+        if (resultado){
+            res.status(StatusCodes.OK).json(resultado);
+        } else {
+            res.status(StatusCodes.NOT_FOUND).json(`No se encontró la calificación (id: ${id})`);
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
+    }
+});
 
 export default router;
