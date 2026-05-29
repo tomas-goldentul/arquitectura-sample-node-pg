@@ -10,7 +10,7 @@ router.get('', async (req, res) => {
     try {
         console.log(`CalificacionesController.get`);
         const returnArray = await currentService.getAllCalificaciones();
-        if (returnArray.length > 0){
+        if (returnArray.length > 0) {
             res.status(StatusCodes.OK).json(returnArray);
         } else {
             res.status(StatusCodes.NOT_FOUND).json(`No hay calificaciones cargadas`);
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
         console.log(`CalificacionesController.get`);
         const id = req.params.id;
         const resultado = await currentService.getCalificacionesId(id);
-        if (resultado){
+        if (resultado) {
             res.status(StatusCodes.OK).json(resultado);
         } else {
             res.status(StatusCodes.NOT_FOUND).json(`No se encontró la calificación (id: ${id})`);
@@ -45,7 +45,7 @@ router.get('/alumno/:idAlumno', async (req, res) => {
         const idAlumno = req.params.idAlumno;
         const resultado = await currentService.getAllCalificacionesAlumno(idAlumno);
         res.status(StatusCodes.OK).json(resultado);
-       
+
     } catch (error) {
         console.log(error);
         if (error.status === 404) {
@@ -54,4 +54,18 @@ router.get('/alumno/:idAlumno', async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
     }
 });
+
+//crear calificacion
+router.post('', async (req, res) => {
+    try {
+        const { idAlumno, idMateria, nota, fecha } = req.body;
+        const nuevoAlumno = await currentService.crearCalificacion(idAlumno, idMateria, nota, fecha);
+        res.status(StatusCodes.OK).json(nuevoAlumno);
+
+    }
+    catch (error) {
+        console.log(error);
+        res.status(StatusCodes.BAD_REQUEST).send(`Error: ${error.message}`);
+    }
+})
 export default router;

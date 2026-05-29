@@ -35,6 +35,28 @@ export default class CalificacionesRepository {
         return await this.db.queryAll(sql, values);
 
     }
+    crearCalificacion = async (idAlumno, idMateria, nota, fecha) => {
+        console.log(`CalificacionesRepository.crearCalificacion(${idAlumno})`);
+        const sql = `INSERT INTO calificaciones (id_alumno, id_materia, nota, fecha) VALUES ($1, $2, $3, $4) RETURNING *`
+        const values = [idAlumno, idMateria, nota, fecha];
+        return await this.db.queryAll(sql, values);
+
+    }
+    traerFechaActual = async () => {
+        const sql = `select CURRENT_DATE`
+        return await this.db.queryAll(sql);
+
+    }
+    getAlumnoMateria = async (idAlumno, id_materia) => {
+        const sql = `
+        select id, id_alumno, id_materia, nota, fecha
+        from calificaciones
+        where id_alumno = $1 AND id_materia = $2
+    `;
+        const values = [idAlumno, id_materia];
+        return await this.db.queryAll(sql, values);
+
+    }
 
 
 }

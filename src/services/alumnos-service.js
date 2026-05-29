@@ -40,6 +40,7 @@ export default class AlumnosService {
         return agregarEdad(returnEntity);
     }
 
+
     createAsync = async (entity) => {
         console.log(`AlumnosService.createAsync(${JSON.stringify(entity)})`);
         // Regla de negocio!!!
@@ -55,7 +56,7 @@ export default class AlumnosService {
         if (entity.id_curso) {
             await this.validarCursoExiste(entity.id_curso);
         }
-        
+
         const rowsAffected = await this.AlumnosRepository.updateAsync(entity);
         return rowsAffected;
     }
