@@ -58,14 +58,15 @@ router.get('/alumno/:idAlumno', async (req, res) => {
 //crear calificacion
 router.post('', async (req, res) => {
     try {
-        const { idAlumno, idMateria, nota, fecha } = req.body;
-        const nuevoAlumno = await currentService.crearCalificacion(idAlumno, idMateria, nota, fecha);
-        res.status(StatusCodes.OK).json(nuevoAlumno);
+        const { id_alumno, id_materia, nota, fecha } = req.body;
+        const nuevoAlumno = await currentService.crearCalificacion(id_alumno, id_materia, nota, fecha);
+        res.status(StatusCodes.CREATED).json(nuevoAlumno);
 
     }
     catch (error) {
         console.log(error);
-        res.status(StatusCodes.BAD_REQUEST).send(`Error: ${error.message}`);
+        const status = error.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
+        res.status(status).send(`Error: ${error.message}`);
     }
 })
 export default router;

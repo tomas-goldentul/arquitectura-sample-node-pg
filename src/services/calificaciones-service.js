@@ -4,11 +4,7 @@ import AlumnosService from '../services/alumnos-service.js';
 import MateriasService from '../services/materias-service.js';
 
 function verificarNumero(numero) {
-    let valida = false;
-    if (numero > 0 && numero <= 10) {
-        valida = true;
-    }
-    return valida;
+    return Number.isInteger(numero) && numero >= 0 && numero <= 10;
 }
 
 
@@ -49,9 +45,7 @@ export default class CalificacionesService {
         return calificaciones;
     }
     crearCalificacion = async (idAlumno, idMateria, nota, fecha) => {
-        if (fecha == null) {
-            fecha = await this.CalificacionesRepository.traerFechaActual();
-        }
+      
         let notaValida = verificarNumero(nota);
         if (!notaValida) {
             const error = new Error(`La nota debe ser un número entero entre 0 y 10`);
@@ -65,6 +59,8 @@ export default class CalificacionesService {
             throw error;
         }
         const materia = await this.MateriasService.getMateriaPorId(idMateria);
+        console.log('materia encontrada:', materia); // ¿qué aparece acá en consola?
+
         if (materia == null){
               const error = new Error(`La materia con id ${idMateria} no existe`);
             error.status = 400;

@@ -14,7 +14,7 @@ export default class MateriasRepository {
         console.log(`MateriasRepository.getMateriaPorId()`);
         const sql = `SELECT * FROM materias WHERE id = $1`;
         const params = [id];
-        return await this.db.queryAll(sql, params);
+        return await this.db.queryOne(sql, params);
     }
     crearMateria = async (nombre) => {
         console.log(`MateriasRepository.crearMateria()`);
