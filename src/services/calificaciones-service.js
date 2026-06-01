@@ -93,10 +93,21 @@ export default class CalificacionesService {
             fechaFinal = fecha;
         } else {
             fechaFinal = new Date().toISOString();
-        }      
+        }
 
         const filasAfectadas = await this.CalificacionesRepository.modificarCalificacion(id, nota, fechaFinal)
         return filasAfectadas.lenght;
+    }
+
+    eliminarCalificacion = async (id) => {
+        const existeCalificacion = await this.CalificacionesRepository.getCalificacionesId(id);
+        if (existeCalificacion == null) {
+            const error = new Error(`No se encontró la calificación ${id}`);
+            error.status = 404;
+            throw error;
+        }
+        const eliminado = await this.CalificacionesRepository.eliminarCalificacion(id);
+        return eliminado
     }
 }
 
