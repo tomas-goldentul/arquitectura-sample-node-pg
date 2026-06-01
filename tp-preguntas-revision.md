@@ -28,17 +28,28 @@ Las siguientes preguntas evalúan la comprensión del recorrido completo del pro
 
 **5.** En la versión mejorada se reemplazó `Client` por `Pool`. Explicá la diferencia entre ambos: ¿cómo maneja las conexiones cada uno? ¿Cuándo conviene usar `Client` y cuándo `Pool`?
 
+-Con client tenes que abrir y cerrar las conexiones de forma manual, en cambio Pool son muchas conexiones que las podes reutilizar y hacer varias consultas al mismo tiempo.
+
 **6.** ¿Qué es un `Router` de Express y qué problema resuelve en esta versión? ¿Por qué las rutas dentro del router no incluyen `/api/alumnos` y solo definen `''` o `'/:id'`?
+
+-Router permite poner endpoints en archivos separados y despues conectarlo con el archivo principal. No hace falta poner /api/alumnos porque en el archivo principal ya definiste app.use("/api/alumnos", AlumnosRouter); entonces el router ya sabe donde ir
+
 
 **7.** En `server-noob-mejorada.js`, el archivo principal tiene solo ~26 líneas. ¿Qué responsabilidad tiene ese archivo ahora? ¿Dónde está la lógica de los endpoints?
 
+-Ahora server-noob-mejorada solo se encarga de llamar a los routers. Allí estan los endpoints.
+
 **8.** En la versión mejorada desaparece el bloque `finally`. ¿Por qué ya no es necesario cerrar la conexión manualmente al usar `Pool`?
+
+-No hace falta porner finally porque cuando llamas a pool se cierra la conexion sola.
 
 ---
 
 ### V3 — server.js (arquitectura en capas)
 
 **9.** Nombrá las tres capas de la arquitectura y explicá con tus palabras qué responsabilidad tiene cada una. ¿Cuál conoce los `req` y `res` de Express? ¿Cuál conoce el SQL? ¿Cuál tiene las reglas de negocio?
+
+-Controller: se encarga de recibir la accion que el usuario quiere hacer, recibe los datos y se los pasa a la capa siguiente, conoce los req y res. Service: realiza toda la logica del programa y valida, tiene las reglas de negocio. Repositories: llama a la base de datos, conoce el sql.
 
 **10.** En `alumnos-service.js`, la edad del alumno se calcula en el service con una función JavaScript, en vez de calcularla en la query SQL. ¿Por qué se eligió calcularla en el service y no en la base de datos?
 
