@@ -58,8 +58,8 @@ router.get('/alumno/:idAlumno', async (req, res) => {
 //crear calificacion
 router.post('', async (req, res) => {
     try {
-        const { id_alumno, id_materia, nota, fecha } = req.body;
-        const nuevoAlumno = await currentService.crearCalificacion(id_alumno, id_materia, nota, fecha);
+        const { idAlumno, idMateria, nota, fecha } = req.body;
+        const nuevoAlumno = await currentService.crearCalificacion(idAlumno, idMateria, nota, fecha);
         res.status(StatusCodes.CREATED).json(nuevoAlumno);
 
     }

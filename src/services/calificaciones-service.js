@@ -59,7 +59,6 @@ export default class CalificacionesService {
             throw error;
         }
         const materia = await this.MateriasService.getMateriaPorId(idMateria);
-        console.log('materia encontrada:', materia); // ¿qué aparece acá en consola?
 
         if (materia == null){
               const error = new Error(`La materia con id ${idMateria} no existe`);
