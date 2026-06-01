@@ -58,5 +58,12 @@ export default class CalificacionesRepository {
 
     }
 
+    modificarCalificacion = async (id, nota, fecha) => {
+        const sql = `UPDATE calificaciones SET nota = $2, fecha = $3 WHERE id = $1  RETURNING *`
+        const values = [id, nota, fecha]
+        return await this.db.queryAll(sql, values);
+
+    }
+
 
 }

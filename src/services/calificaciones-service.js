@@ -45,7 +45,7 @@ export default class CalificacionesService {
         return calificaciones;
     }
     crearCalificacion = async (idAlumno, idMateria, nota, fecha) => {
-      
+
         let notaValida = verificarNumero(nota);
         if (!notaValida) {
             const error = new Error(`La nota debe ser un número entero entre 0 y 10`);
@@ -60,19 +60,43 @@ export default class CalificacionesService {
         }
         const materia = await this.MateriasService.getMateriaPorId(idMateria);
 
-        if (materia == null){
-              const error = new Error(`La materia con id ${idMateria} no existe`);
+        if (materia == null) {
+            const error = new Error(`La materia con id ${idMateria} no existe`);
             error.status = 400;
             throw error;
         }
         const existe = await this.CalificacionesRepository.getAlumnoMateria(idAlumno, idMateria);
-        if (existe != null){
-              const error = new Error(`Ya existe una calificación para el alumno ${idAlumno} en la materia ${idMateria}`);
+        if (existe != null) {
+            const error = new Error(`Ya existe una calificación para el alumno ${idAlumno} en la materia ${idMateria}`);
             error.status = 409;
             throw error;
         }
-        const alumnoNuevo =  await this.CalificacionesRepository.crearCalificacion(idAlumno, idMateria, nota, fecha);
+        const alumnoNuevo = await this.CalificacionesRepository.crearCalificacion(idAlumno, idMateria, nota, fecha);
         return alumnoNuevo
+    }
+
+    updateCalificacion = async (id, nota, fecha) => {
+        const existeCalificacion = await this.CalificacionesRepository.getCalificacionesId(id);
+        if (existeCalificacion == null) {
+            const error = new Error(`No se encontró la calificación ${id}`);
+            error.status = 404;
+            throw error;
+        }
+        const notaValida = verificarNumero(nota);
+        if (!notaValida) {
+            const error = new Error(`La nota debe ser un número entero entre 0 y 10.`);
+            error.status = 400;
+            throw error;
+        }
+        let fechaFinal;
+        if (fecha !== undefined && fecha !== null) {
+            fechaFinal = fecha;
+        } else {
+            fechaFinal = new Date().toISOString();
+        }      
+
+        const filasAfectadas = await this.CalificacionesRepository.modificarCalificacion(id, nota, fechaFinal)
+        return filasAfectadas.lenght;
     }
 }
 

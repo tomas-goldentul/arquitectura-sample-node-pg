@@ -69,4 +69,19 @@ router.post('', async (req, res) => {
         res.status(status).send(`Error: ${error.message}`);
     }
 })
+
+//modificar claificacion
+router.put('/:id', async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        const {nota, fecha } = req.body;
+        const filasAfectadas = await currentService.updateCalificacion(id, nota, fecha);
+        res.status(StatusCodes.OK).json(filasAfectadas);
+
+    } catch (error) {
+        console.log(error);
+        const status = error.status ?? StatusCodes.INTERNAL_SERVER_ERROR;
+        res.status(status).send(`Error: ${error.message}`);
+    }
+})
 export default router;
