@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
         console.log(`MateriasController.getById`);
         const id = req.params.id;
         const materia = await currentService.getMateriaPorId(id);
-        if (materia != null && materia.length > 0) {
+        if (materia) {
             res.status(StatusCodes.OK).json(materia);
         } else {
             res.status(StatusCodes.NOT_FOUND).send('Materia no encontrada');
