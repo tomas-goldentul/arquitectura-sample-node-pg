@@ -8,11 +8,19 @@ Las siguientes preguntas evalúan la comprensión del recorrido completo del pro
 
 **1.** En `server-noob.js`, cada endpoint crea un `new Client(config)`, hace `await client.connect()`, ejecuta la query, y en el `finally` hace `await client.end()`. Explicá con tus palabras qué problema de performance tiene este enfoque cuando la API recibe muchos requests simultáneos.
 
+-El problema es que server-noob.js abre y cierra una conexion en cada request, lo que lo hace ser muy lento
+
 **2.** ¿Qué pasa si PostgreSQL está apagado y un request llega a `server-noob.js`? El `client.connect()` falla, y después se ejecuta el `finally` con `await client.end()`. ¿Qué error puede ocurrir y por qué?
+
+-Si PostgreSQL esta apagado el error que pasa es AggregateError [ECONNREFUSED]
 
 **3.** En `server-noob.js`, si un compañero te dice "el endpoint de crear alumno tiene un bug", tenés que buscarlo en un archivo de ~215 líneas. ¿Por qué esto se vuelve un problema más grave a medida que la aplicación crece? Mencioná también qué pasa con Git cuando dos personas trabajan en el mismo archivo.
 
+-El problema es que es muy dificil encontrar cada endpoint y a medida que la aplicacion crece aumenta esta dificultad. Cuando dos personas trabajan en el mismo archivo ocurre un conflicto.
+
 **4.** Las queries en `server-noob.js` usan parámetros posicionales (`$1`, `$2`, etc.) en vez de concatenar strings. ¿Qué vulnerabilidad se previene con esto y por qué es importante?
+
+-Se usan parametros posicionales para que te pasen lo que realmente queres y asi evitar una SQL Injection
 
 ---
 
