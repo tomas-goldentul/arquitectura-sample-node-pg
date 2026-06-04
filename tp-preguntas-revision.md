@@ -53,11 +53,19 @@ Las siguientes preguntas evalúan la comprensión del recorrido completo del pro
 
 **10.** En `alumnos-service.js`, la edad del alumno se calcula en el service con una función JavaScript, en vez de calcularla en la query SQL. ¿Por qué se eligió calcularla en el service y no en la base de datos?
 
+-La edad se calcula en el service porque esta capa se encarga de calcular cosas, en cambio, el repository solo se encarga de comunicarse con la bd
+
 **11.** Cuando se crea un alumno con un `id_curso` que no existe, `AlumnosService` llama a `CursosService` para verificarlo. ¿Por qué llama al service de cursos y no directamente al repository de cursos?
+
+-Se llama a CursosService para respetar las capas. Ademas si llamamos directo al repository nos estariamos salteando las validaciones que realiza el service
 
 **12.** ¿Para qué sirve el archivo `.env` y la librería `dotenv`? ¿Qué problema de las versiones anteriores resuelve? ¿Por qué el archivo `.env` no se sube al repositorio de Git?
 
+-El archivo .env sirve para que no se puedan ver los datos sensibles (usuarios, contraseñas, api keys) cuando lo subis a github. dotenv carga los datos del .env. No se sube a git porque lo incluis en el gitignore
+
 **13.** ¿Qué hace `LogHelper` y por qué es mejor que usar `console.log(error)` suelto en cada lugar del código?
+
+-LogHelper muestra el error en la consola y lo guarda en un archivo. Es mejor que console.log porque los errores se guardan en un archivo .log junto a la fecha y mas detalles
 
 ---
 
@@ -65,9 +73,15 @@ Las siguientes preguntas evalúan la comprensión del recorrido completo del pro
 
 **14.** Mirá `alumnos-repository.js` (versión original) y `alumnos-repository-new.js` (versión refactorizada). ¿Qué código repetido (boilerplate) se eliminó al extraer la clase `DbPg`? Mencioná al menos 3 cosas que ya no aparecen en el repository nuevo.
 
+-El codigo repetido que se elimino fue el de los if y el try catch. Esto es gracias a la clase DbPg y ahora simplemente haces this.db y se hace de manera centralizada y sin repetir toda la logica de antes. Las cosas que no aparecen en el repository nuevo son: No hay mas try catch, no estan los LogHelpers  y no esta el .rows que evita muchas verificaciones
+
 **15.** La clase `DbPg` tiene 4 métodos: `queryAll`, `queryOne`, `queryReturnId` y `queryRowCount`. ¿Qué devuelve cada uno y en qué tipo de operación SQL se usa cada uno?
 
+-queryAll devuelve una lista que son las filas de la tabla select * from. queryOne devuelve un objeto único select ¨from . where id = $1. queryReturnId devuelve un numero que es el id del nuevo registro, en sql es un insert y al final RETURNING id. queryRowCount devuelve la cantidad de filas afectadas DELETE FROM cursos WHERE id=$1
+
 **16.** En los repositories nuevos, la clase se importa como `import Db from './db-pg.js'` (con el nombre `Db`, no `DbPg`). ¿Por qué se usa ese nombre genérico? ¿Qué pasa si mañana querés cambiar de PostgreSQL a SQL Server — cuántas líneas del repository tenés que modificar?
+
+-Se llama Db porque en caso de cambiar de postgre a sql server solo se necesita cambiar una línea.
 
 ---
 
