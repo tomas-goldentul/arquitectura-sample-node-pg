@@ -48,9 +48,8 @@ router.post('', async (req, res) => {
         if (!nombre || nombre.trim() === "") {
             return res.status(StatusCodes.BAD_REQUEST).send('El nombre de la materia es obligatorio.');
         }
-        const dbResult = await currentService.crearMateria(nombre);
-        const idFinal = Array.isArray(dbResult) ? dbResult[0].id : dbResult;
-        res.status(StatusCodes.CREATED).json(idFinal);
+        const idMateria = await currentService.crearMateria(nombre);
+        res.status(StatusCodes.CREATED).json(idMateria);
 
     } catch (error) {
         console.log(error);
@@ -100,5 +99,5 @@ router.delete('/:id', async (req, res) => {
     }
 
 
-}); 
+});
 export default router;  
