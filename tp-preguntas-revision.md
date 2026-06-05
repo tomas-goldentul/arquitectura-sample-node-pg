@@ -91,8 +91,16 @@ En cada situación, indicá en qué capa lo pondrías (controller, service o rep
 
 **17.** Necesitás agregar un nuevo endpoint `GET /api/alumnos/curso/:idCurso` que devuelva todos los alumnos de un curso. La query sería `SELECT * FROM alumnos WHERE id_curso = $1`. ¿Dónde pondrías esa query? ¿Dónde pondrías la ruta del endpoint? ¿Agregarías algo en el service?
 
+-La query la pondria en el repository de alumnos ya que es la encargada de traer la informacion de los alumnos de la base de datos. La ruta del endpoint la pondria en el controller.  En el service verfificaría si existe el id curso.
+
 **18.** El cliente pide que al crear un alumno, si no se manda `fecha_nacimiento`, el sistema ponga la fecha de hoy por defecto. ¿En qué capa pondrías esa lógica y por qué? ¿Es una regla de negocio o es algo de la base de datos?
+
+-La pondría en el service ya que este se encarga de asignar los datos, es una regla de negocio.
 
 **19.** Necesitás que al eliminar un curso, se verifique primero que no tenga alumnos asociados, y si tiene, devolver un error `400` con el mensaje "No se puede eliminar el curso porque tiene alumnos asociados". ¿Dónde pondrías la verificación (la consulta de si tiene alumnos)? ¿Dónde pondrías el `throw new Error(...)`? ¿Y dónde se atraparía ese error para devolver el `400`?
 
+-La verificacion de si tiene alumnos la pondria en el service. El throw new error lo pondría en el service ya que luego de realizar las validaciones, si ocurre algo, retorna el error. El error lo atrapa el controller y devuelve el 400.
+
 **20.** Te piden agregar un endpoint que devuelva un resumen por curso: nombre del curso, cantidad de alumnos, y el promedio de edad de esos alumnos. ¿Qué parte resolvés con SQL (en el repository) y qué parte resolvés con lógica (en el service)? ¿O se puede resolver todo en una sola capa?
+
+-La parte de obtener el nombre del curso la resolvería en el repository de cursos. Obtener la cantidad de alumnos la haría en el repository de alumnos haciendo un select (...) where id_curso = $1. Luego obtener la edad de los alumnos lo haria en el repository y luego en el service calculo el promedio.
