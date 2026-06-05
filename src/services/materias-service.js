@@ -33,14 +33,18 @@ export default class MateriasService {
             error.statusCode = 400;
             throw error;
         }
-        const resultadoArray = await this.MateriasRepository.updateMateria(id, nombre);
-        const rowsAffected = resultadoArray.length;
+        const rowsAffected = await this.MateriasRepository.updateMateria(id, nombre); 
         return rowsAffected;
     }
 
     eliminarMateria = async (id) => {
         console.log(`MateriasService.eliminarMateria(${id})`);
         const resultado = await this.MateriasRepository.eliminarMateria(id);
+        if (resultado === 0) {
+            const error = new Error(`No existe la materia con id: ${id}`);
+            error.statusCode = 404;
+            throw error;
+        }
         return resultado;
     }
 }

@@ -20,19 +20,19 @@ export default class MateriasRepository {
         console.log(`MateriasRepository.crearMateria()`);
         const sql = `INSERT INTO materias (nombre) VALUES ($1) RETURNING id`;
         const params = [nombre];
-        return await this.db.queryAll(sql, params);
+        return await this.db.queryReturnId(sql, params);
     }
     updateMateria = async (id, nombre) => {
         console.log(`MateriasRepository.updateMateria()`);
         const sql = `UPDATE materias SET nombre = $2 WHERE id = $1 RETURNING *`;
         const params = [id, nombre];
-        return await this.db.queryAll(sql, params);
+        return await this.db.queryRowCount(sql, params);
     }
     eliminarMateria = async (id) => {
         console.log(`MateriasRepository.eliminarMateria()`);
         const sql = `DELETE FROM materias where id = $1 RETURNING *`;
         const params = [id]
-        return await this.db.queryAll(sql, params);
+        return await this.db.queryRowCount(sql, params);
 
     }
 

@@ -59,9 +59,9 @@ export default class CalificacionesRepository {
     }
 
     modificarCalificacion = async (id, nota, fecha) => {
-        const sql = `UPDATE calificaciones SET nota = $2, fecha = $3 WHERE id = $1  `
+        const sql = `UPDATE calificaciones SET nota = $2, fecha = $3 WHERE id = $1;`
         const values = [id, nota, fecha]
-        return await this.db.queryAll(sql, values);
+        return await this.db.queryRowCount(sql, values);
 
     }
 
@@ -69,8 +69,8 @@ export default class CalificacionesRepository {
         const sql = `DELETE FROM calificaciones WHERE id = $1 RETURNING id`
         const values = [id]
 
-       const resultado =  this.db.queryAll(sql, values);
-        return  resultado.length;
+       const resultado =  await this.db.queryRowCount(sql, values);
+        return  resultado;
     }
 
 

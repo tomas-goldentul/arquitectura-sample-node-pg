@@ -96,7 +96,7 @@ export default class CalificacionesService {
         }
 
         const filasAfectadas = await this.CalificacionesRepository.modificarCalificacion(id, nota, fechaFinal)
-        return filasAfectadas.lenght;
+        return filasAfectadas;
     }
 
     eliminarCalificacion = async (id) => {
